@@ -15,10 +15,10 @@ requests. This script proves it three ways:
 import httpx
 from rich.console import Console
 from rich.table import Table
-from request_once import load_api_key
+from request_once import load_api_key, load_model
 
 URL = "https://api.anthropic.com/v1/messages"
-MODEL = "claude-haiku-4-5-20251001"  # cheap model, small max_tokens — this is a token-count exercise, not a quality one
+MODEL = load_model()  # small max_tokens — this is a token-count exercise, not a quality one
 console = Console()
 
 

@@ -1,8 +1,9 @@
 import httpx
 import json
-from request_once import load_api_key
+from request_once import load_api_key, load_model
 
 URL = "https://api.anthropic.com/v1/messages"
+MODEL = load_model()
 
 
 def send_raw(body: dict, api_key: str) -> httpx.Response:
@@ -22,7 +23,7 @@ def show(response: httpx.Response):
 def bad_api_key_experiment():
     print("\n--- bad API key (expect 401) ---")
     body = {
-        "model": "claude-sonnet-5",
+        "model": MODEL,
         "max_tokens": 20,
         "messages": [{"role": "user", "content": "Hello"}],
     }
@@ -44,7 +45,7 @@ def nonexistent_model_experiment(api_key: str):
 def malformed_body_experiment(api_key: str):
     print("\n--- missing max_tokens (expect 400) ---")
     body = {
-        "model": "claude-sonnet-5",
+        "model": MODEL,
         "messages": [{"role": "user", "content": "Hello"}],
     }
     response = send_raw(body, api_key)
@@ -52,7 +53,7 @@ def malformed_body_experiment(api_key: str):
 
     print("\n--- empty messages array (expect 400) ---")
     body = {
-        "model": "claude-sonnet-5",
+        "model": MODEL,
         "max_tokens": 20,
         "messages": [],
     }
@@ -63,7 +64,7 @@ def malformed_body_experiment(api_key: str):
 def max_tokens_too_high_experiment(api_key: str):
     print("\n--- max_tokens above model cap (expect 400) ---")
     body = {
-        "model": "claude-sonnet-5",
+        "model": MODEL,
         "max_tokens": 99999999,
         "messages": [{"role": "user", "content": "Hello"}],
     }
@@ -74,7 +75,7 @@ def max_tokens_too_high_experiment(api_key: str):
 def rate_limit_experiment(api_key: str):
     print("\n--- hammering the API until 429 ---")
     body = {
-        "model": "claude-sonnet-5",
+        "model": MODEL,
         "max_tokens": 10,
         "messages": [{"role": "user", "content": "Hi"}],
     }

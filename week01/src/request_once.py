@@ -10,8 +10,14 @@ def load_api_key() -> str:
     return ant_key
 
 
+def load_model() -> str:
+    load_dotenv()
+    return os.getenv("ANTHROPIC_MODEL", "claude-sonnet-5")
+
+
 def main():
     api_key = load_api_key()
+    model = load_model()
     url = "https://api.anthropic.com/v1/messages"
     headers = {
         "x-api-key": api_key,
@@ -19,7 +25,7 @@ def main():
         "content-type": "application/json",
     }
     body = {
-        "model": "claude-haiku-4-5-20251001",
+        "model": model,
         "max_tokens": 1024,
         "messages": [
             {"role": "user", "content": "Say hello in one sentence."}

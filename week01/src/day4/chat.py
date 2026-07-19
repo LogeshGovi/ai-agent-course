@@ -31,7 +31,7 @@ from rich.console import Console
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "day3"))
 
-from request_once import load_api_key  # noqa: E402
+from request_once import load_api_key, load_model  # noqa: E402
 from conversation import Conversation  # noqa: E402
 
 console = Console()
@@ -187,7 +187,7 @@ def main():
         "--window", type=int, default=3000,
         help="Simulated context window in tokens (small on purpose, to actually exercise the strategy)",
     )
-    parser.add_argument("--model", default="claude-sonnet-5")
+    parser.add_argument("--model", default=load_model())
     args = parser.parse_args()
 
     api_key = load_api_key()

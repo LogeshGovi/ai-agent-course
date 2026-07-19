@@ -10,14 +10,15 @@ message loop" in week 2, and gets wrapped by day4/chat.py.
 import httpx
 import json
 from rich.console import Console
-from request_once import load_api_key
+from request_once import load_api_key, load_model
 from pricing import cost
 
 URL = "https://api.anthropic.com/v1/messages"
 
 
 class Conversation:
-    def __init__(self, api_key: str, model: str = "claude-sonnet-5", system: str | None = None, max_tokens: int = 1024):
+    def __init__(self, api_key: str, model: str | None = None, system: str | None = None, max_tokens: int = 1024):
+        model = model or load_model()
         self.api_key = api_key
         self.model = model
         self.system = system

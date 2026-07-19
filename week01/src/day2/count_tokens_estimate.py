@@ -1,8 +1,9 @@
 import httpx
 import json
-from request_once import load_api_key
+from request_once import load_api_key, load_model
 
 MESSAGES_URL = "https://api.anthropic.com/v1/messages"
+MODEL = load_model()
 
 CHARS_PER_TOKEN = 2  # rough English-text heuristic
 
@@ -21,7 +22,7 @@ def send_and_get_usage(messages: list, system: str | None, api_key: str) -> dict
         "content-type": "application/json",
     }
     body = {
-        "model": "claude-sonnet-5",
+        "model": MODEL,
         "max_tokens": 50,
         "messages": messages,
     }

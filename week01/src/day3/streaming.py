@@ -10,13 +10,14 @@ separate "event:" line.
 import httpx
 import json
 from rich.console import Console
-from request_once import load_api_key
+from request_once import load_api_key, load_model
 
 URL = "https://api.anthropic.com/v1/messages"
+MODEL = load_model()
 console = Console()
 
 
-def stream_message(body: dict, api_key: str) -> tuple[str, dict]:
+def stream_message(body: dict, api_key: str) -> tuple[str, dict, str|None]:
     headers = {
         "x-api-key": api_key,
         "anthropic-version": "2023-06-01",
@@ -72,7 +73,7 @@ def stream_message(body: dict, api_key: str) -> tuple[str, dict]:
 if __name__ == "__main__":
     api_key = load_api_key()
     body = {
-        "model": "claude-sonnet-5",
+        "model": MODEL,
         "max_tokens": 300,
         "messages": [{"role": "user", "content": "Write a 4-sentence story about a lighthouse keeper."}],
     }

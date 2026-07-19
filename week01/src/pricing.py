@@ -10,6 +10,7 @@ PRICING = {
     "claude-sonnet-5": {"input": 2.00, "output": 10.00},   # intro pricing through 2026-08-31
     "claude-opus-4-8": {"input": 5.00, "output": 25.00},
     "claude-haiku-4-5": {"input": 1.00, "output": 5.00},
+    "claude-haiku-4-5-20251001": {"input": 1.00, "output": 5.00},
 }
 
 

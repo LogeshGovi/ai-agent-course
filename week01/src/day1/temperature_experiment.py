@@ -1,8 +1,9 @@
 import httpx
 import json
-from request_once import load_api_key
+from request_once import load_api_key, load_model
 
 URL = "https://api.anthropic.com/v1/messages"
+MODEL = load_model()
 
 
 def send(body: dict, api_key: str) -> dict:
@@ -24,7 +25,7 @@ def temperature_experiment(api_key: str):
         print(f"\n--- temperature={temperature} ---")
         for i in range(5):
             body = {
-                "model": "claude-haiku-4-5-20251001",
+                "model": MODEL,
                 "max_tokens": 20,
                 "temperature": temperature,
                 "messages": [{"role": "user", "content": prompt}],
@@ -37,7 +38,7 @@ def temperature_experiment(api_key: str):
 def max_tokens_truncation_experiment(api_key: str):
     print("\n--- max_tokens=10 truncation ---")
     body = {
-        "model": "claude-haiku-4-5-20251001",
+        "model": MODEL,
         "max_tokens": 10,
         "messages": [{"role": "user", "content": "Explain photosynthesis in detail."}],
     }
@@ -49,7 +50,7 @@ def max_tokens_truncation_experiment(api_key: str):
 def stop_sequences_experiment(api_key: str):
     print("\n--- stop_sequences ---")
     body = {
-        "model": "claude-haiku-4-5-20251001",
+        "model": MODEL,
         "max_tokens": 100,
         "stop_sequences": ["3."],
         "messages": [{"role": "user", "content": "List five colors, numbered 1. 2. 3. 4. 5."}],

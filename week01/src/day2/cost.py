@@ -1,6 +1,6 @@
 import httpx
 import json
-from request_once import load_api_key
+from request_once import load_api_key, load_model
 
 MESSAGES_URL = "https://api.anthropic.com/v1/messages"
 
@@ -9,6 +9,7 @@ PRICING = {
     "claude-sonnet-5": {"input": 2.00, "output": 10.00},   # intro pricing through 2026-08-31
     "claude-opus-4-8": {"input": 5.00, "output": 25.00},
     "claude-haiku-4-5": {"input": 1.00, "output": 5.00},
+    "claude-haiku-4-5-20251001": {"input": 1.00, "output": 5.00},
 }
 
 
@@ -38,7 +39,7 @@ def send(body: dict, api_key: str) -> dict:
 if __name__ == "__main__":
     api_key = load_api_key()
 
-    model = "claude-sonnet-5"
+    model = load_model()
     body = {
         "model": model,
         "max_tokens": 100,

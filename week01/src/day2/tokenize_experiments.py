@@ -1,11 +1,12 @@
 import httpx
 import json
 import uuid
-from request_once import load_api_key
+from request_once import load_api_key, load_model
 import re
 
 COUNT_URL = "https://api.anthropic.com/v1/messages/count_tokens"
 MESSAGES_URL = "https://api.anthropic.com/v1/messages"
+MODEL = load_model()
 
 def normalize_whitespace(text: str) -> str:
     return re.sub(r"[ \t\n\r\f\v]+", " ", text)
@@ -17,7 +18,7 @@ def count_tokens(text: str, api_key: str) -> int:
         "content-type": "application/json",
     }
     body = {
-        "model": "claude-haiku-4-5-20251001",
+        "model": MODEL,
         "messages": [{"role": "user", "content": text}],
     }
     response = httpx.post(COUNT_URL, headers=headers, json=body)
@@ -65,7 +66,7 @@ def strawberry_question(api_key: str):
         "content-type": "application/json",
     }
     body = {
-        "model": "claude-haiku-4-5-20251001",
+        "model": MODEL,
         "max_tokens": 100,
         "messages": [{"role": "user", "content": "How many r's are in the word strawberry?"}],
     }
